@@ -11,9 +11,10 @@ def create_spark_session():
                         .master("local[*]") \
                         .getOrCreate()
 
+
 def read(spark, datasetURI):
-    """Read CSV dataset into an DataFrame and display its Schema"""
-    jsonDF = spark.read.csv(datasetURI, header=True, inferSchema=True).persist()
+    """Read JSON dataset into an DataFrame and display its Schema"""
+    jsonDF = spark.read.json(datasetURI).persist()
     jsonDF.printSchema()
     return jsonDF
 
@@ -41,7 +42,7 @@ if __name__ == '__main__':
     # Create the Spark Session
     spark = create_spark_session()
     # Read the CSV dataset
-    datasetURI = 'datasets/USvideos.csv'
+    datasetURI = 'datasets/winemag-data-130k-v2.json'
     jsonDF = read(spark, datasetURI)
     # Perform Transformations/Actions using functions
     transform_actions_functional(jsonDF)
